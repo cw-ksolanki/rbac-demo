@@ -63,10 +63,12 @@ $route['admin']                   = 'admin/admin/dashboard';
 $route['admin/dashboard']         = 'admin/admin/dashboard';
 $route['admin/profile']           = 'admin/admin/profile';      
 $route['admin/profile/update']      = 'admin/admin/update_profile';  
+
 $route['admin/users']             = 'admin/admin/users';
 $route['admin/users/create']      = 'admin/admin/create_user';
 $route['admin/users/edit/(:num)'] = 'admin/admin/edit_user/$1';
 $route['admin/users/delete/(:num)'] = 'admin/admin/delete_user/$1';
+
 $route['admin/roles']             = 'admin/admin/roles';
 $route['admin/roles/create']      = 'admin/admin/create_role';
 $route['admin/roles/edit/(:num)'] = 'admin/admin/edit_role/$1';
