@@ -27,7 +27,7 @@
     <div class="card">
         <h2>Sign In</h2>
 
-        <?php if (!empty($error)): ?>
+        <?php if (!empty($error) && $err_type === 'inactive' ): ?>
             <div class="error"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
@@ -36,10 +36,18 @@
                 <label>Email</label>
                 <input type="email" name="email" value="<?= set_value('email') ?>" placeholder="you@example.com" required>
             </div>
+            <?php if (!empty($error) && $err_type === 'email' ): ?>
+            <div class="error"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
+
             <div class="form-group">
                 <label>Password</label>
                 <input type="password" name="password" placeholder="••••••••" required>
             </div>
+            <?php if (!empty($error) && $err_type === 'password' ): ?>
+            <div class="error"><?= htmlspecialchars($error) ?></div>
+        <?php endif; ?>
+        
             <button type="submit">Login</button>
         <?php echo form_close(); ?>
     </div>

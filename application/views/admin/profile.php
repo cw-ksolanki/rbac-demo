@@ -18,7 +18,6 @@
                 <?= strtoupper(substr($user->name, 0, 1)) ?>
             </div>
             <div style="font-weight:600;font-size:16px;"><?= htmlspecialchars($user->name) ?></div>
-            <div style="font-size:13px;color:#adb5bd;"><?= $this->session->userdata('role_display_name') ?></div>
             <hr>
             <div class="text-start" style="font-size:13px;">
                 <div class="mb-2">
@@ -43,7 +42,6 @@
             <div class="card-header">Edit Profile Info</div>
             <div class="card-body">
                 <?php echo form_open('admin/profile/update'); ?>
-                <input type="hidden" name="type" value="info">
 
                 <div class="row g-3">
                     <div class="col-md-6">
@@ -72,36 +70,6 @@
             </div>
         </div>
 
-        <!-- Change Password -->
-        <div class="card">
-            <div class="card-header">Change Password</div>
-            <div class="card-body">
-                <?php echo form_open('admin/profile/update'); ?>
-                <input type="hidden" name="type" value="password">
-
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Current Password</label>
-                        <input type="password" name="current_password" class="form-control" required>
-                    </div>
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">New Password</label>
-                        <input type="password" name="new_password" class="form-control" required>
-                    </div>
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Confirm New Password</label>
-                        <input type="password" name="confirm_password" class="form-control" required>
-                    </div>
-                </div>
-
-                <div class="mt-3">
-                    <button type="submit" class="btn btn-primary">Change Password</button>
-                </div>
-
-                <?php echo form_close(); ?>
-            </div>
-        </div>
 
     </div>
 </div>

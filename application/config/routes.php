@@ -64,13 +64,15 @@ $route['admin/dashboard']         = 'admin/admin/dashboard';
 $route['admin/profile']           = 'admin/admin/profile';      
 $route['admin/profile/update']      = 'admin/admin/update_profile';  
 
+//Admin panel (admin/admins)
+$route['admin/admins']              = 'admin/admin/all_admins';
+
 //Admin panel (admin/users)
 $route['admin/users']             = 'admin/admin/users';
 $route['admin/users/create']      = 'admin/admin/create_user';
 $route['admin/users/edit/(:num)'] = 'admin/admin/edit_user/$1';
 $route['admin/users/view/(:num)']   = 'admin/admin/view_user/$1';
 $route['admin/users/delete/(:num)'] = 'admin/admin/delete_user/$1';
-$route['admin/ajax/role-fields/(:num)'] = 'admin/admin/ajax_role_fields/$1';
 
 //Admin panel (admin/roles)
 $route['admin/roles']             = 'admin/admin/roles';

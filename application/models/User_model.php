@@ -7,56 +7,40 @@ class User_model extends CI_Model {
     // READ
     // -------------------------------------------------------
 
-    public function get_all($filters = [], $limit = 10, $offset = 0) {
-        $this->db->select('u.*, r.name as role_name, r.display_name as role_display_name');
+    public function get_all($type) {
+        $this->db->select('u.*, r.name as role_name');
         $this->db->from('users u');
         $this->db->join('roles r', 'r.id = u.role_id', 'left');
 
-        if (!empty($filters['search'])) {
-            $s = $this->db->escape_like_str($filters['search']);
-            $this->db->group_start();
-            $this->db->like('u.name', $s);
-            $this->db->or_like('u.email', $s);
-            $this->db->or_like('u.phone', $s);
-            $this->db->group_end();
-        }
-        if (!empty($filters['role_id'])) {
-            $this->db->where('u.role_id', $filters['role_id']);
-        }
-        if (!empty($filters['status'])) {
-            $this->db->where('u.status', $filters['status']);
+        if ($type === 'admin') {
+            $this->db->where('u.role_id', 1);
+        }else{
+            $this->db->where('u.role_id !=',1);
         }
 
         $this->db->order_by('u.created_at', 'DESC');
-        $this->db->limit($limit, $offset);
         return $this->db->get()->result();
     }
 
-    public function count_filtered($filters = []) {
+    public function count_users() {
         $this->db->select('u.id');
         $this->db->from('users u');
         $this->db->join('roles r', 'r.id = u.role_id', 'left');
+        $this->db->where('u.role_id !=',1);
 
-        if (!empty($filters['search'])) {
-            $s = $this->db->escape_like_str($filters['search']);
-            $this->db->group_start();
-            $this->db->like('u.name', $s);
-            $this->db->or_like('u.email', $s);
-            $this->db->or_like('u.phone', $s);
-            $this->db->group_end();
-        }
-        if (!empty($filters['role_id'])) {
-            $this->db->where('u.role_id', $filters['role_id']);
-        }
-        if (!empty($filters['status'])) {
-            $this->db->where('u.status', $filters['status']);
-        }
+        return $this->db->get()->num_rows();
+    }
+    public function count_admins() {
+        $this->db->select('u.id');
+        $this->db->from('users u');
+        $this->db->join('roles r', 'r.id = u.role_id', 'left');
+        $this->db->where('u.role_id',1);
 
         return $this->db->get()->num_rows();
     }
 
     public function get_by_id($id) {
-        $this->db->select('u.*, r.name as role_name, r.display_name as role_display_name');
+        $this->db->select('u.*, r.name as role_name');
         $this->db->from('users u');
         $this->db->join('roles r', 'r.id = u.role_id', 'left');
         $this->db->where('u.id', $id);
@@ -137,6 +121,8 @@ class User_model extends CI_Model {
     public function update_basic($id, $data) {
         $data['updated_at'] = date('Y-m-d H:i:s');
         $data['updated_by'] = $this->session->userdata('user_id');
+        $data['assigned_at'] = date('Y-m-d H:i:s');
+        $data['assigned_by'] = $this->session->userdata('user_id');
         $this->db->where('id', $id)->update('users', $data);
     }
 

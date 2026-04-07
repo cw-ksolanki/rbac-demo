@@ -20,9 +20,7 @@
                 <tr>
                     <th class="ps-4">#</th>
                     <th>Name</th>
-                    <th>Display Name</th>
                     <th>Description</th>
-                    <th>Profile Table</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -32,16 +30,16 @@
                 <tr>
                     <td class="ps-4"><?= $role->id ?></td>
                     <td><code><?= htmlspecialchars($role->name) ?></code></td>
-                    <td><?= htmlspecialchars($role->display_name) ?></td>
                     <td class="text-muted"><?= htmlspecialchars($role->description ?? '—') ?></td>
-                    <td><code><?= $role->name ?>_profiles</code></td>
                     <td>
+                        <?php if($role->id != 1):?>
                         <a href="<?= site_url('admin/roles/edit/' . $role->id) ?>" class="btn btn-sm btn-outline-secondary">
                             <i class="bi bi-pencil"></i> Edit
                         </a>
-                        <?php if (!in_array($role->name, ['admin', 'driver', 'user'])): ?>
+                        <?php endif;?>
+                        <?php if (!in_array($role->name, ['admin'])): ?>
                         <button class="btn btn-sm btn-outline-danger"
-                            onclick="confirmDelete(<?= $role->id ?>, '<?= htmlspecialchars($role->display_name) ?>')">
+                            onclick="confirmDelete(<?= $role->id ?>, '<?= htmlspecialchars($role->name) ?>')">
                             <i class="bi bi-trash"></i> Delete
                         </button>
                         <?php else: ?>
@@ -68,7 +66,7 @@
             </div>
             <div class="modal-body">
                 <p class="text-muted mb-0">Are you sure you want to delete <strong id="roleName"></strong>?
-                This will also <span class="text-danger">drop the profile table</span> for this role.</p>
+                This will also <span class="text-danger">affect the RBAC</span> for this role.</p>
             </div>
             <div class="modal-footer border-0 pt-0">
                 <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>

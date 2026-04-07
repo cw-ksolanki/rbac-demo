@@ -1,4 +1,4 @@
-<?php $this->load->view('admin/layouts/header', ['page_title' => 'View User']); ?>
+<?php $this->load->view('admin/layouts/header', [$page_title]); ?>
 
 <div class="row g-4">
     <div class="col-md-4">
@@ -47,11 +47,19 @@
         <div class="card">
             <div class="card-header">Profile Details</div>
             <div class="card-body">
-                <?php if ($profile): ?>
-                    <?php
-                    // Show all profile fields except id, user_id
-                    $skip = ['id', 'user_id'];
-                    $profile_arr = (array) $profile;
+                <?php if ($user): ?>
+                    <?php      
+                    $skip = ['id', 'password'];
+                    if($user->role_name === 'driver'){
+                        array_push($skip,'company');
+                        array_push($skip,'company_website');
+                    }
+                    if($user->role_name === 'user'){
+                        array_push($skip,'vehicle_type');
+                        array_push($skip,'vehicle_no');
+                        array_push($skip,'licence_no');
+                    }
+                    $profile_arr = (array) $user;
                     ?>
                     <div class="row g-3">
                     <?php foreach ($profile_arr as $key => $val): ?>

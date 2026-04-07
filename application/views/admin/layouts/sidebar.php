@@ -12,6 +12,12 @@ $uri = $this->uri->segment(2); // e.g. 'dashboard', 'users', 'roles'
 
     <div class="nav-label mt-2">Manage</div>
     <div class="nav-item">
+        <a href="<?= site_url('admin/admins') ?>" class="<?= $uri === 'admins' ? 'active' : '' ?>">
+            <i class="bi bi-person-badge"></i> admins
+        </a>
+    </div>
+
+    <div class="nav-item">
         <a href="<?= site_url('admin/users') ?>" class="<?= $uri === 'users' ? 'active' : '' ?>">
             <i class="bi bi-people"></i> Users
         </a>

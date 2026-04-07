@@ -34,7 +34,7 @@
                         <?php foreach ($roles as $role): ?>
                             <option value="<?= $role->id ?>"
                                 <?= (set_value('role_id') == $role->id) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($role->display_name) ?>
+                                <?= htmlspecialchars($role->name) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -103,77 +103,77 @@
 </div>
 
 <script>
-const AJAX_URL = '<?= site_url('admin/ajax/role-fields/') ?>';
+    const oldValues = <?= json_encode($_POST ?? []) ?>;
+    document.addEventListener('DOMContentLoaded', function () {
+    const roleSelect = document.getElementById('role_select');
+    const wrapper    = document.getElementById('profile_fields_wrapper');
+    const container  = document.getElementById('profile_fields_container');
 
-document.getElementById('role_select').addEventListener('change', function () {
-    const role_id = this.value;
-    const wrapper   = document.getElementById('profile_fields_wrapper');
-    const container = document.getElementById('profile_fields_container');
-    const loading   = document.getElementById('profile_loading');
-    const badge     = document.getElementById('profile_table_badge');
+    roleSelect.addEventListener('change', handleRoleChange);
 
-    if (!role_id) {
-        wrapper.style.display = 'none';
+    // Run on page load
+    handleRoleChange();
+
+    function handleRoleChange() {
+        const roleId = parseInt(roleSelect.value);
         container.innerHTML = '';
-        return;
-    }
 
-    loading.style.display = 'block';
-    wrapper.style.display = 'none';
-    container.innerHTML   = '';
+        let fields = [];
 
-    fetch(AJAX_URL + role_id, {
-        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    })
-    .then(r => r.json())
-    .then(data => {
-        loading.style.display = 'none';
+        switch (roleId) {
+            case 3: // driver
+                fields = [
+                    'vehicle_no',
+                    'vehicle_type',
+                    'licence_no'
+                ];
+                break;
 
-        if (!data.fields || data.fields.length === 0) {
-            // No custom fields — just hide section
+            case 2: // user
+                fields = [
+                    'company',
+                    'company_website'
+                ];
+                break;
+
+            case 1: // admin
+                fields = [];
+                break;
+
+            default: // any other role
+                fields = [
+                    'vehicle_type',
+                    'vehicle_number',
+                    'licence_number',
+                    'company',
+                    'company_website'
+                ];
+        }
+
+        if (fields.length === 0) {
+            wrapper.style.display = 'none';
             return;
         }
 
-        badge.textContent = data.table;
-        data.fields.forEach(field => {
-            container.innerHTML += buildField(field, '');
+        fields.forEach(name => {
+            container.innerHTML += buildField(name);
         });
+
         wrapper.style.display = 'block';
-    })
-    .catch(() => { loading.style.display = 'none'; });
-});
-
-function buildField(field, value) {
-    const label = field.name.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    const type  = getInputType(field.type);
-
-    if (type === 'textarea') {
-        return `<div class="col-md-6">
-            <label class="form-label fw-semibold">${label}</label>
-            <textarea name="profile[${field.name}]" class="form-control" rows="2">${value}</textarea>
-        </div>`;
     }
 
-    return `<div class="col-md-6">
-        <label class="form-label fw-semibold">${label}</label>
-        <input type="${type}" name="profile[${field.name}]"
-               class="form-control" value="${value}">
-    </div>`;
-}
+    function buildField(name) {
+        const label = name
+            .replace(/_/g, ' ')
+            .replace(/\b\w/g, c => c.toUpperCase());
 
-function getInputType(dbType) {
-    dbType = dbType.toLowerCase();
-    if (dbType.includes('text'))                     return 'textarea';
-    if (dbType.includes('int'))                      return 'number';
-    if (dbType.includes('decimal') ||
-        dbType.includes('float'))                    return 'number';
-    if (dbType === 'date')                           return 'date';
-    if (dbType.includes('datetime') ||
-        dbType.includes('timestamp'))                return 'datetime-local';
-    if (dbType.includes('tinyint(1)'))               return 'checkbox';
-    return 'text';
-}
-
+        const value = oldValues[name] ?? '';
+        return `<div class="col-md-6">
+            <label class="form-label fw-semibold">${label}</label>
+            <input type="text" name="${name}" class="form-control" value="${value}">
+        </div>`;
+    }
+});
 function togglePass(id, btn) {
     const input = document.getElementById(id);
     const isPass = input.type === 'password';

@@ -11,28 +11,10 @@
     <div class="card-body" style="max-width: 600px;">
         <?php echo form_open('admin/roles/edit/' . $role->id); ?>
 
-            <?php if (!in_array($role->name, $protected)): ?>
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Role Name <span class="text-danger">*</span></label>
-                <input type="text" name="name" class="form-control"
-                    value="<?= set_value('name', $role->name) ?>" required>
-                <div class="form-text text-warning">
-                    <i class="bi bi-exclamation-triangle"></i>
-                    Changing the role name will NOT rename the existing profile table.
-                </div>
-            </div>
-            <?php else: ?>
             <div class="mb-3">
                 <label class="form-label fw-semibold">Role Name</label>
-                <input type="text" class="form-control" value="<?= htmlspecialchars($role->name) ?>" disabled>
+                <input type="text" name='name' class="form-control" value="<?= htmlspecialchars($role->name) ?>">
                 <div class="form-text">Built-in role name cannot be changed.</div>
-            </div>
-            <?php endif; ?>
-
-            <div class="mb-3">
-                <label class="form-label fw-semibold">Display Name <span class="text-danger">*</span></label>
-                <input type="text" name="display_name" class="form-control"
-                    value="<?= set_value('display_name', $role->display_name) ?>" required>
             </div>
 
             <div class="mb-4">

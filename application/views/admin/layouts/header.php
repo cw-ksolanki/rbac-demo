@@ -168,7 +168,6 @@
         </div>
         <div>
             <div style="font-weight:600;line-height:1.2;"><?= $this->session->userdata('user_name') ?></div>
-            <div style="font-size:11px;color:#adb5bd;"><?= $this->session->userdata('role_display_name') ?></div>
         </div>
     </a>
 </div>

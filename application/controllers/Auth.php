@@ -38,17 +38,17 @@ class Auth extends CI_Controller {
         $user = $this->Auth_model->get_user_by_email($email);
 
         if (!$user) {
-            $this->load->view('auth/login', ['error' => 'Invalid email or password.']);
+            $this->load->view('auth/login', ['error' => 'Invalid email', 'err_type' => 'email']);
             return;
         }
 
         if ($user->status === 'inactive') {
-            $this->load->view('auth/login', ['error' => 'Your account is inactive. Contact admin.']);
+            $this->load->view('auth/login', ['error' => 'Your account is inactive. Contact admin.', 'err_type' => 'inactive']);
             return;
         }
 
         if (!password_verify($password, $user->password)) {
-            $this->load->view('auth/login', ['error' => 'Invalid email or password.']);
+            $this->load->view('auth/login', ['error' => 'Invalid password.', 'err_type' => 'password']);
             return;
         }
 
@@ -60,12 +60,11 @@ class Auth extends CI_Controller {
             'user_email'       => $user->email,
             'role_id'          => $user->role_id,
             'role_name'        => $user->role_name,
-            'role_display_name'=> $user->role_display_name,
         ];
         $this->session->set_userdata($session_data);
 
         // Update last login in profile table
-        $this->Auth_model->update_last_login($user->id, $user->role_name);
+        $this->Auth_model->update_last_login($user->id);
 
         $this->_redirect_by_role($user->role_name);
     }
@@ -84,7 +83,6 @@ class Auth extends CI_Controller {
                 redirect('driver/dashboard');
                 break;
             default:
-                // Any custom role → goes to user dashboard
                 redirect('user/dashboard');
                 break;
         }

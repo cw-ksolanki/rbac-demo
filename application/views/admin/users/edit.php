@@ -34,7 +34,7 @@
                         <?php foreach ($roles as $role): ?>
                             <option value="<?= $role->id ?>"
                                 <?= (set_value('role_id', $user->role_id) == $role->id) ? 'selected' : '' ?>>
-                                <?= htmlspecialchars($role->display_name) ?>
+                                <?= htmlspecialchars($role->name) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
@@ -76,92 +76,77 @@
         <?php echo form_close(); ?>
     </div>
 </div>
-
 <script>
-const AJAX_URL      = '<?= site_url('admin/ajax/role-fields/') ?>';
+    const user = <?= json_encode($user); ?>;
+document.addEventListener('DOMContentLoaded', function () {
+    const roleSelect = document.getElementById('role_select');
+    const wrapper    = document.getElementById('profile_fields_wrapper');
+    const container  = document.getElementById('profile_fields_container');
 
-// Existing profile data passed from controller
-const existingProfile = <?= json_encode(
-    !empty($profile) ? array_diff_key((array)$profile, array_flip(['id','user_id','updated_at','updated_by','last_login','profile_pic'])) : []
-) ?>;
+    roleSelect.addEventListener('change', handleRoleChange);
 
-// Pre-load on page load with existing values
-window.addEventListener('DOMContentLoaded', () => {
-    const sel = document.getElementById('role_select');
-    if (sel.value) loadFields(sel.value, existingProfile);
-});
+    // Run on page load
+    handleRoleChange();
 
-document.getElementById('role_select').addEventListener('change', function () {
-    // When role changes, load new fields (no pre-fill since it's a different role)
-    loadFields(this.value, {});
-});
+    function handleRoleChange() {
+        const roleId = parseInt(roleSelect.value);
+        container.innerHTML = '';
 
-function loadFields(role_id, prefill) {
-    const wrapper   = document.getElementById('profile_fields_wrapper');
-    const container = document.getElementById('profile_fields_container');
-    const loading   = document.getElementById('profile_loading');
-    const badge     = document.getElementById('profile_table_badge');
+        let fields = [];
 
-    if (!role_id) {
-        wrapper.style.display = 'none';
-        container.innerHTML   = '';
-        return;
+        switch (roleId) {
+            case 3: // driver
+                fields = [
+                    'vehicle_no',
+                    'vehicle_type',
+                    'licence_no'
+                ];
+                break;
+
+            case 2: // user
+                fields = [
+                    'company',
+                    'company_website'
+                ];
+                break;
+
+            case 1: // admin
+                fields = [];
+                break;
+
+            default: // any other role
+                fields = [
+                    'vehicle_type',
+                    'vehicle_number',
+                    'licence_number',
+                    'company',
+                    'company_website'
+                ];
+        }
+
+        if (fields.length === 0) {
+            wrapper.style.display = 'none';
+            return;
+        }
+
+        fields.forEach(name => {
+            container.innerHTML += buildField(name);
+        });
+
+        wrapper.style.display = 'block';
     }
 
-    loading.style.display = 'block';
-    wrapper.style.display = 'none';
-    container.innerHTML   = '';
+    function buildField(name) {
+        const label = name
+            .replace(/_/g, ' ')
+            .replace(/\b\w/g, c => c.toUpperCase());
 
-    fetch(AJAX_URL + role_id, {
-        headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    })
-    .then(r => r.json())
-    .then(data => {
-        loading.style.display = 'none';
-
-        if (!data.fields || data.fields.length === 0) return;
-
-        badge.textContent = data.table;
-        data.fields.forEach(field => {
-            const value = prefill[field.name] !== undefined ? prefill[field.name] : '';
-            container.innerHTML += buildField(field, value);
-        });
-        wrapper.style.display = 'block';
-    })
-    .catch(() => { loading.style.display = 'none'; });
-}
-
-function buildField(field, value) {
-    const label = field.name.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-    const type  = getInputType(field.type);
-    const safe  = String(value).replace(/"/g, '&quot;');
-
-    if (type === 'textarea') {
         return `<div class="col-md-6">
             <label class="form-label fw-semibold">${label}</label>
-            <textarea name="profile[${field.name}]" class="form-control" rows="2">${safe}</textarea>
+            <input type="text" name="${name}" class="form-control" value="${user[name] ?? ''}">
         </div>`;
     }
-
-    return `<div class="col-md-6">
-        <label class="form-label fw-semibold">${label}</label>
-        <input type="${type}" name="profile[${field.name}]"
-               class="form-control" value="${safe}">
-    </div>`;
-}
-
-function getInputType(dbType) {
-    dbType = dbType.toLowerCase();
-    if (dbType.includes('text'))               return 'textarea';
-    if (dbType.includes('int'))                return 'number';
-    if (dbType.includes('decimal') ||
-        dbType.includes('float'))              return 'number';
-    if (dbType === 'date')                     return 'date';
-    if (dbType.includes('datetime') ||
-        dbType.includes('timestamp'))          return 'datetime-local';
-    if (dbType.includes('tinyint(1)'))         return 'checkbox';
-    return 'text';
-}
+});
 </script>
 
 <?php $this->load->view('admin/layouts/footer'); ?>

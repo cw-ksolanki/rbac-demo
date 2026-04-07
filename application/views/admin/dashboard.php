@@ -55,44 +55,4 @@
     </div>
 </div>
 
-<div class="card">
-    <div class="card-header">Recent Users</div>
-    <div class="card-body p-0">
-        <table class="table mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th class="ps-4">Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Created</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php if (!empty($recent_users)): ?>
-                <?php foreach ($recent_users as $u): ?>
-                <tr>
-                    <td class="ps-4"><?= htmlspecialchars($u->name) ?></td>
-                    <td><?= htmlspecialchars($u->email) ?></td>
-                    <td><?= htmlspecialchars($u->role_display_name ?? $u->role_name) ?></td>
-                    <td>
-                        <?php if ($u->status === 'active'): ?>
-                            <span class="badge bg-success-subtle text-success">Active</span>
-                        <?php elseif ($u->status === 'inactive'): ?>
-                            <span class="badge bg-secondary-subtle text-secondary">Inactive</span>
-                        <?php else: ?>
-                            <span class="badge bg-danger-subtle text-danger">Banned</span>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= date('d M Y', strtotime($u->created_at)) ?></td>
-                </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr><td colspan="5" class="text-center text-muted py-4">No users yet</td></tr>
-            <?php endif; ?>
-            </tbody>
-        </table>
-    </div>
-</div>
-
 <?php $this->load->view('admin/layouts/footer'); ?>
