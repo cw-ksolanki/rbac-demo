@@ -67,7 +67,9 @@ $route['admin/profile/update']      = 'admin/admin/update_profile';
 $route['admin/users']             = 'admin/admin/users';
 $route['admin/users/create']      = 'admin/admin/create_user';
 $route['admin/users/edit/(:num)'] = 'admin/admin/edit_user/$1';
+$route['admin/users/view/(:num)']   = 'admin/admin/view_user/$1';
 $route['admin/users/delete/(:num)'] = 'admin/admin/delete_user/$1';
+$route['admin/ajax/role-fields/(:num)'] = 'admin/admin/ajax_role_fields/$1';
 
 $route['admin/roles']             = 'admin/admin/roles';
 $route['admin/roles/create']      = 'admin/admin/create_role';
@@ -78,8 +80,10 @@ $route['admin/roles/delete/(:num)'] = 'admin/admin/delete_role/$1';
 $route['user']              = 'user/user/dashboard';
 $route['user/dashboard']    = 'user/user/dashboard';
 $route['user/profile']      = 'user/user/profile';
+$route['user/profile/update'] = 'user/user/update_profile';
 
 // Driver panel
 $route['driver']            = 'driver/driver/dashboard';
 $route['driver/dashboard']  = 'driver/driver/dashboard';
 $route['driver/profile']    = 'driver/driver/profile';
+$route['driver/profile/update'] = 'driver/driver/update_profile';

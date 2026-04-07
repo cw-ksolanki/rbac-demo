@@ -107,4 +107,23 @@ class Role_model extends CI_Model {
         $allowed = array_keys(self::allowed_field_types());
         return in_array($type, $allowed) ? $type : null;
     }
+    // Get profile table columns for a role (excluding default fields)
+public function get_profile_fields($role_name) {
+    $table = $role_name . '_profiles';
+    if (!$this->db->table_exists($table)) return [];
+
+    $skip = ['id', 'user_id', 'last_login', 'profile_pic', 'updated_at', 'updated_by'];
+
+    $query  = $this->db->query("DESCRIBE `{$table}`");
+    $fields = [];
+    foreach ($query->result() as $row) {
+        if (!in_array($row->Field, $skip)) {
+            $fields[] = [
+                'name' => $row->Field,
+                'type' => $row->Type,
+            ];
+        }
+    }
+    return $fields;
+}
 }
