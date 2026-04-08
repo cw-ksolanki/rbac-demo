@@ -102,7 +102,7 @@ public function create_role() {
                 'description'  => $description,
             ]);
 
-            $this->session->set_flashdata('success', 'Role "' . $display_name . '" created successfully.');
+            $this->session->set_flashdata('success', 'Role "' . $name . '" created successfully.');
             redirect('admin/roles');
         }
 
@@ -374,22 +374,4 @@ public function delete_user($id) {
     redirect('admin/users');
 }
 
-public function ajax_role_fields($role_id) {
-    if (!$this->input->is_ajax_request()) show_404();
-
-    $this->load->model('Role_model');
-    $role = $this->Role_model->get_by_id($role_id);
-
-    if (!$role) {
-        echo json_encode(['fields' => [], 'table' => '']);
-        return;
-    }
-
-    $fields = $this->Role_model->get_profile_fields($role->name);
-    echo json_encode([
-        'fields'    => $fields,
-        'role_name' => $role->name,
-        'table'     => $role->name . '_profiles',
-    ]);
-}
 }

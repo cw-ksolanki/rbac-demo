@@ -85,9 +85,3 @@ $route['user']              = 'user/user/dashboard';
 $route['user/dashboard']    = 'user/user/dashboard';
 $route['user/profile']      = 'user/user/profile';
 $route['user/profile/update'] = 'user/user/update_profile';
-
-// Driver panel
-$route['driver']            = 'driver/driver/dashboard';
-$route['driver/dashboard']  = 'driver/driver/dashboard';
-$route['driver/profile']    = 'driver/driver/profile';
-$route['driver/profile/update'] = 'driver/driver/update_profile';
