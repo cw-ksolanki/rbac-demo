@@ -27,6 +27,11 @@ $uri = $this->uri->segment(2); // e.g. 'dashboard', 'users', 'roles'
             <i class="bi bi-shield-check"></i> Roles
         </a>
     </div>
+    <div class="nav-item">
+        <a href="<?= site_url('admin/material') ?>" class="<?= $uri === 'material' ? 'active' : '' ?>">
+            <i class="bi bi-box"></i> material
+        </a>
+    </div>
 
 </nav>
 

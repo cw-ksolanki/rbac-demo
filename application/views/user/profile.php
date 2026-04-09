@@ -144,6 +144,63 @@
                 <?php echo form_close(); ?>
             </div>
         </div>
+
+        <?php else:?>
+            <div class="card mb-4">
+            <div class="card-header">Company Info</div>
+            <div class="card-body">
+                <?php echo form_open('user/profile/update'); ?>
+                <input type="hidden" name="type" value="info">
+                <input type="hidden" name="name"  value="<?= htmlspecialchars($user->name) ?>">
+                <input type="hidden" name="phone" value="<?= htmlspecialchars($user->phone ?? '') ?>">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Company</label>
+                        <input type="text" name="company" class="form-control"
+                            value="<?= htmlspecialchars($user->company ?? '') ?>">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Company Website</label>
+                        <input type="text" name="company_website" class="form-control"
+                            value="<?= htmlspecialchars($user->company_website ?? '') ?>">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+                <?php echo form_close(); ?>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">Vehicle Info</div>
+            <div class="card-body">
+                <?php echo form_open('user/profile/update'); ?>
+                <input type="hidden" name="type" value="info">
+                <input type="hidden" name="name"  value="<?= htmlspecialchars($user->name) ?>">
+                <input type="hidden" name="phone" value="<?= htmlspecialchars($user->phone ?? '') ?>">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Vehicle Type</label>
+                        <input type="text" name="vehicle_type" class="form-control"
+                            value="<?= htmlspecialchars($user->vehicle_type ?? '') ?>">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Vehicle No</label>
+                        <input type="text" name="vehicle_no" class="form-control"
+                            value="<?= htmlspecialchars($user->vehicle_no ?? '') ?>">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Licence No</label>
+                        <input type="text" name="licence_no" class="form-control"
+                            value="<?= htmlspecialchars($user->licence_no ?? '') ?>">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+                <?php echo form_close(); ?>
+            </div>
+        </div>
         <?php endif; ?>
 
     </div>
