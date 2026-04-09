@@ -74,6 +74,9 @@ $route['admin/users/edit/(:num)'] = 'admin/admin/edit_user/$1';
 $route['admin/users/view/(:num)']   = 'admin/admin/view_user/$1';
 $route['admin/users/delete/(:num)'] = 'admin/admin/delete_user/$1';
 
+//Admin panel (admin/material)
+$route['admin/material']            = 'admin/admin/material';
+
 //Admin panel (admin/roles)
 $route['admin/roles']             = 'admin/admin/roles';
 $route['admin/roles/create']      = 'admin/admin/create_role';

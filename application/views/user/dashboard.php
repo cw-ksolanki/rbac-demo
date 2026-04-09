@@ -71,6 +71,42 @@
                 </div>
             </div>
         </div>
+
+        <?php else:?>
+             <div class="card">
+            <div class="card-header">Company Info</div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#adb5bd;">Company</div>
+                        <div style="font-size:14px;"><?= htmlspecialchars($user->company ?? '—') ?></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#adb5bd;">Company Website</div>
+                        <div style="font-size:14px;"><?= htmlspecialchars($user->company_website ?? '—') ?></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">Vehicle Info</div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#adb5bd;">Vehicle Type</div>
+                        <div style="font-size:14px;"><?= htmlspecialchars($user->vehicle_type ?? '—') ?></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#adb5bd;">Vehicle No</div>
+                        <div style="font-size:14px;"><?= htmlspecialchars($user->vehicle_no ?? '—') ?></div>
+                    </div>
+                    <div class="col-md-6">
+                        <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:#adb5bd;">Licence No</div>
+                        <div style="font-size:14px;"><?= htmlspecialchars($user->licence_no ?? '—') ?></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <?php endif; ?>
 
     </div>

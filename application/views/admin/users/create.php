@@ -1,11 +1,5 @@
 <?php $this->load->view('admin/layouts/header', ['page_title' => 'Create User']); ?>
 
-<?php if (!empty($errors)): ?>
-    <div class="alert alert-danger">
-        <?php foreach ($errors as $e): ?><div><?= htmlspecialchars($e) ?></div><?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
 <div class="card">
     <div class="card-header">Create New User</div>
     <div class="card-body" style="max-width:700px;">
@@ -22,6 +16,15 @@
                     <input type="email" name="email" class="form-control"
                         value="<?= set_value('email') ?>" required>
                 </div>
+                <?php if (!empty($errors)): ?>
+    <div class="alert alert-danger">
+        <?php foreach ($errors as $e): ?> 
+            <?php if(str_starts_with($e,'Email')):?>
+                <div><?= htmlspecialchars($e) ?></div>
+                <?php endif;?>
+                <?php endforeach; ?>
+    </div>
+<?php endif; ?>
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">Phone</label>
                     <input type="text" name="phone" class="form-control"
@@ -92,6 +95,15 @@
                     </div>
                 </div>
             </div>
+            <?php if (!empty($errors)): ?>
+    <div class="alert alert-danger">
+        <?php foreach ($errors as $e): ?> 
+            <?php if(str_starts_with($e,'Pass')):?>
+                <div><?= htmlspecialchars($e) ?></div>
+                <?php endif;?>
+                <?php endforeach; ?>
+    </div>
+<?php endif; ?>
 
             <div class="d-flex gap-2 mt-4">
                 <button type="submit" class="btn btn-primary">Create User</button>

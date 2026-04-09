@@ -14,11 +14,11 @@ class Admin extends CI_Controller {
     public function dashboard() {
         $this->load->model('User_model');
         $this->load->model('Role_model');
-
+        
         $data['page_title']    = 'Dashboard';
         $data['total_users']   = $this->User_model->count_all();
         $data['active_users']  = $this->User_model->count_by_status('active');
-        $data['total_drivers'] = $this->User_model->count_by_role('driver');
+        $data['total_drivers'] = $this->User_model->count_drivers();
         $data['total_roles']   = $this->Role_model->count_all();
 
         $this->load->view('admin/dashboard', $data); 
@@ -374,4 +374,26 @@ public function delete_user($id) {
     redirect('admin/users');
 }
 
+public function material(){
+    $this->load->model('Material_model');
+    if($this->input->post()){
+         
+        $material_type = $this->input->post('material_type');
+        $material_options = $this->input->post('material_options');
+
+        $data = [
+            'material_type' => $material_type,
+            'material_options' => json_encode($material_options)
+        ];
+
+        $this->Material_model->save($data);
+        $this->session->set_flashdata('success', 'Material saved successfully');
+        redirect('admin/material');
+    }
+
+    $data = [
+            'material_type' => 'none',
+        ];
+    $this->load->view('admin/material/index.php',$data);
+}
 }

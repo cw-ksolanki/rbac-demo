@@ -1,13 +1,5 @@
 <?php $this->load->view('admin/layouts/header', ['page_title' => 'Create Role']); ?>
 
-<?php if (!empty($errors)): ?>
-    <div class="alert alert-danger">
-        <?php foreach ($errors as $e): ?>
-            <div><?= htmlspecialchars($e) ?></div>
-        <?php endforeach; ?>
-    </div>
-<?php endif; ?>
-
 <div class="card">
     <div class="card-header">Create New Role</div>
     <div class="card-body" style="max-width: 700px;">
@@ -22,6 +14,13 @@
             <div class="form-text">Lowercase and underscores only.</div>
         </div>
 
+        <?php if (!empty($errors)): ?>
+    <div class="alert alert-danger">
+        <?php foreach ($errors as $e): ?>
+            <div><?= htmlspecialchars($e) ?></div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
         <!-- Description -->
         <div class="mb-4">
             <label class="form-label fw-semibold">Description</label>

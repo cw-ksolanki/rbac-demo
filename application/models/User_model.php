@@ -22,6 +22,12 @@ class User_model extends CI_Model {
         return $this->db->get()->result();
     }
 
+    public function count_all(){
+        $this->db->select('u.id');
+        $this->db->from('users u');
+        return $this->db->get()->num_rows();
+    }
+
     public function count_users() {
         $this->db->select('u.id');
         $this->db->from('users u');
@@ -38,6 +44,25 @@ class User_model extends CI_Model {
 
         return $this->db->get()->num_rows();
     }
+
+    public function count_by_status($status){
+        $this->db->select('u.id');
+        $this->db->from('users u');
+        $this->db->where('u.status',$status);
+
+        return $this->db->get()->num_rows();
+
+    }
+
+      public function count_drivers() {
+        $this->db->select('u.id');
+        $this->db->from('users u');
+        $this->db->join('roles r', 'r.id = u.role_id', 'left');
+        $this->db->where('u.role_id',3);
+
+        return $this->db->get()->num_rows();
+    }
+
 
     public function get_by_id($id) {
         $this->db->select('u.*, r.name as role_name');
